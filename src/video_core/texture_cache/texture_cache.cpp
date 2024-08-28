@@ -41,9 +41,8 @@ void TextureCache::InvalidateMemory(VAddr address, size_t size, bool from_comput
             return;
         }
         // Mark any subresources as dirty.
-        image.ForEachSubresource(address, size, [&](u32 index) {
-            image.cpu_modified |= 1ULL << index;
-        });
+        image.ForEachSubresource(address, size,
+                                 [&](u32 index) { image.cpu_modified |= 1ULL << index; });
         // Untrack image, so the range is unprotected and the guest can write freely.
         UntrackImage(image, image_id);
     });
